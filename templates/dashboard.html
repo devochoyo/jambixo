@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dashboard - JAMBIXO</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#006837">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/icon.png') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+{% macro bars(rows) %}
+  {% if rows %}
+    <ul class="bars">
+      {% for r in rows %}
+      <li>
+        <div class="bar-top"><span>{{ r.label }}</span><b>{{ r.count }}</b></div>
+        <div class="track"><i style="width: {{ r.pct }}%"></i></div>
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">No visits yet.</p>
+  {% endif %}
+{% endmacro %}
+
+<header class="top">
+  <div class="top-in">
+    <div class="logo">JAMBIXO <small>Visit tracker</small></div>
+    <form method="post" action="{{ url_for('logout') }}">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <button class="out" type="submit">Sign out</button>
+    </form>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="banner">
+    <div class="banner-text">
+      <p class="b-eyebrow">Download JAMBIXO</p>
+      <h1><span>Free JAMB practice</span> app</h1>
+      <p class="b-sub">100% offline &middot; No activation required</p>
+      <div class="link-box">
+        <input id="link" type="text" readonly value="{{ site_url }}/c/tiktok1">
+        <button id="copy" type="button">Copy link</button>
+      </div>
+      <p class="hint">Change <b>tiktok1</b> to name each ad, e.g. <b>{{ site_url }}/c/ad2</b>. Or use <b>?utm_campaign=name</b>.</p>
+    </div>
+    <div class="banner-phone"><img src="{{ url_for('static', filename='img/exam.webp') }}" alt=""></div>
+  </section>
+
+  <nav class="ranges" aria-label="Date range">
+    {% for d, label in [(1,'Today'),(7,'7 days'),(14,'14 days'),(30,'30 days'),(90,'90 days')] %}
+      <a href="{{ url_for('dashboard', days=d, bots=1 if include_bots else None) }}" class="{{ 'on' if d == days }}">{{ label }}</a>
+    {% endfor %}
+    <a class="bot-toggle {{ 'on' if include_bots }}" href="{{ url_for('dashboard', days=days, bots=None if include_bots else 1) }}">{{ 'Bots: shown' if include_bots else 'Bots: hidden' }}</a>
+  </nav>
+
+  <section class="cards">
+    <div class="card"><span>Visits</span><b>{{ stats.total }}</b><small>in this range</small></div>
+    <div class="card"><span>Unique visitors</span><b>{{ stats.unique }}</b><small>counted per day</small></div>
+    <div class="card"><span>Today</span><b>{{ stats.today }}</b><small>visits (Nigerian time)</small></div>
+    <div class="card gold"><span>Sent to Play Store</span><b>{{ stats.rate }}%</b><small>of visits redirected</small></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Visits per day</h2>
+      <span class="muted">All time: {{ stats.all_time }} &middot; Bots in range: {{ stats.bots }}</span>
+    </div>
+    <div id="chart" class="chart" data-series='{{ series|tojson }}'></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel"><h2>Campaigns</h2>{{ bars(campaigns) }}</section>
+    <section class="panel"><h2>Sources</h2>{{ bars(sources) }}</section>
+    <section class="panel"><h2>Devices</h2>{{ bars(devices) }}</section>
+    <section class="panel"><h2>Opened in</h2>{{ bars(apps) }}</section>
+    <section class="panel"><h2>Countries</h2>{{ bars(countries) }}</section>
+  </div>
+
+  <section class="panel">
+    <h2>Latest visits</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Time (WAT)</th><th>Campaign</th><th>Source</th><th>Device</th><th>Opened in</th><th>Country</th><th>Play Store</th></tr></thead>
+        <tbody>
+          {% for v in recent %}
+          <tr>
+            <td>{{ v.local_time }}</td>
+            <td>{{ v.campaign }}</td>
+            <td>{{ v.source }}</td>
+            <td>{{ v.device }}</td>
+            <td>{{ v.app }}{% if v.is_bot %} <em class="tag">bot</em>{% endif %}</td>
+            <td>{{ v.country or '-' }}</td>
+            <td>{{ 'Yes' if v.redirected else '-' }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="7" class="empty">No visits yet. Open your link to test it.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="foot">Visits are counted when someone opens your link. Installs are shown in Google Play Console and TikTok Ads Manager.</p>
+</main>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

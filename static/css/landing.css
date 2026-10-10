@@ -1,0 +1,89 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#fff;background:#00301a;-webkit-text-size-adjust:100%}
+
+.page{
+  min-height:100vh;min-height:100svh;position:relative;overflow:hidden;display:flex;
+  background:
+    radial-gradient(900px 700px at 50% 18%,rgba(40,170,100,.55) 0%,transparent 62%),
+    linear-gradient(180deg,#007a40 0%,#00301a 100%);
+}
+.page:before,.page:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none}
+.page:before{width:340px;height:340px;left:-130px;top:70px}
+.page:after{width:440px;height:440px;right:-200px;top:38%}
+
+.wrap{
+  position:relative;z-index:1;width:100%;max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr;grid-template-rows:auto auto 1fr;
+  grid-template-areas:"hero" "phones" "cta";
+}
+
+/* ---------- hero ---------- */
+.hero{grid-area:hero;text-align:center;padding:22px 20px 18px;animation:rise .7s ease both}
+.brand{font-weight:800;letter-spacing:.14em;font-size:1rem;color:#fff;opacity:.95;margin-bottom:18px}
+.eyebrow{font-weight:700;font-size:clamp(1.2rem,5vw,1.8rem)}
+h1{font-weight:800;line-height:1.1;font-size:clamp(2.1rem,10vw,3.7rem);text-shadow:0 4px 18px rgba(0,0,0,.35)}
+.gold{color:#ffc41c;display:block}
+.lead{margin-top:12px;font-weight:700;font-size:clamp(1.15rem,5vw,1.7rem)}
+.free{display:inline-block;background:#ffc41c;color:#003a1e;border-radius:999px;padding:.05em .6em;margin-left:.15em;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.pills{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+.pills li{font-weight:700;font-size:clamp(.85rem,3.6vw,1.05rem);padding:9px 18px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35)}
+.pills li b{color:#ffc41c}
+.pills li.white{background:#fff;color:#006837;border-color:#fff}
+.tick{display:inline-grid;place-items:center;width:1.3em;height:1.3em;border-radius:50%;background:#006837;color:#fff;font-size:.8em;margin-right:4px}
+
+/* ---------- phones ---------- */
+.phones{
+  --w:min(50vw,230px);
+  grid-area:phones;position:relative;width:100%;height:calc(var(--w) * 1.68);overflow:hidden;margin-top:6px;
+}
+.ph{
+  position:absolute;left:50%;top:14px;width:var(--w);padding:calc(var(--w) * .028);
+  background:#17191c;border-radius:calc(var(--w) * .15);border:2px solid #5c5f64;
+  box-shadow:0 24px 50px rgba(0,0,0,.45);
+}
+.ph img{display:block;width:100%;height:auto;border-radius:calc(var(--w) * .12);background:#fff}
+.ph:after{content:"";position:absolute;top:calc(var(--w) * .075);left:50%;width:calc(var(--w) * .035);height:calc(var(--w) * .035);margin-left:calc(var(--w) * -.0175);border-radius:50%;background:#0a0a0c}
+.ph.center{transform:translateX(-50%);z-index:3}
+.ph.left{transform:translateX(calc(-50% - var(--w) * .66)) rotate(-8deg) scale(.86);z-index:1;filter:brightness(.95)}
+.ph.right{transform:translateX(calc(-50% + var(--w) * .66)) rotate(8deg) scale(.86);z-index:2;filter:brightness(.95)}
+
+/* ---------- call to action ---------- */
+.cta{
+  grid-area:cta;background:#fff;color:#0b3b24;text-align:center;position:relative;z-index:4;
+  padding:44px 20px calc(34px + env(safe-area-inset-bottom));
+  border-radius:50% 50% 0 0 / 56px 56px 0 0;box-shadow:0 -12px 30px rgba(0,0,0,.2);
+  animation:rise .8s .15s ease both;
+}
+.get{font-weight:700;font-size:clamp(1rem,4vw,1.2rem);color:#4a6b5a}
+.cta h2{font-weight:800;font-size:clamp(2.4rem,12vw,3.6rem);color:#006837;line-height:1.1;letter-spacing:.02em}
+.sub{font-weight:500;color:#5b7366;margin-bottom:18px}
+.play{display:inline-block;width:min(290px,78vw);transition:transform .15s;animation:pulse 1.6s ease-in-out infinite;filter:drop-shadow(0 8px 14px rgba(0,0,0,.28))}
+.play:active{transform:scale(.97)}
+.play svg{display:block;width:100%;height:auto}
+.redirect{margin-top:18px;font-size:.85rem;font-weight:500;color:#5b7366}
+.bar{height:6px;border-radius:99px;background:#e1eee6;overflow:hidden;max-width:260px;margin:10px auto 0}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#006837,#ffc41c);animation:fill var(--delay,1.8s) linear forwards}
+
+@keyframes fill{to{width:100%}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.bar i{width:100%}}
+
+/* ---------- tablets and desktops ---------- */
+@media (min-width:900px){
+  .page{align-items:center}
+  .wrap{
+    grid-template-columns:1.05fr .95fr;grid-template-rows:auto auto;
+    grid-template-areas:"hero phones" "cta phones";
+    align-items:center;padding:40px 28px;column-gap:20px;
+  }
+  .hero{text-align:left;padding:0 0 20px}
+  .pills{justify-content:flex-start}
+  .phones{--w:260px;height:calc(var(--w) * 2.35);grid-area:phones;overflow:visible;margin:0}
+  .ph{top:0}
+  .cta{border-radius:28px;max-width:480px;padding:28px 28px 30px;text-align:left;box-shadow:0 20px 40px rgba(0,0,0,.25)}
+  .cta .bar{margin-left:0}
+  .sub{margin-bottom:16px}
+}
+@media (max-width:360px){.pills li{padding:8px 14px}}

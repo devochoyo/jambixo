@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Download JAMBIXO - Free Offline JAMB Practice App</title>
+  <meta name="description" content="Practice JAMB questions for free. 100% offline, no activation required. Download JAMBIXO on Google Play.">
+  <meta name="theme-color" content="#006837">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/icon.png') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+  <noscript><meta http-equiv="refresh" content="4;url={{ play_url }}"></noscript>
+</head>
+<body>
+  <main class="page" data-play="{{ play_url }}" data-visit="{{ visit_id }}" data-delay="{{ delay_ms }}">
+    <div class="wrap">
+
+      <section class="hero">
+        <div class="brand">JAMBIXO</div>
+        <p class="eyebrow">Are you a</p>
+        <h1><span class="gold">2027 JAMB</span> candidate?</h1>
+        <p class="lead">Practice JAMB questions <span class="free">FOR FREE!</span></p>
+        <ul class="pills">
+          <li><b>100%</b> Offline</li>
+          <li class="white"><span class="tick">&#10003;</span> No activation required</li>
+        </ul>
+      </section>
+
+      <section class="phones" aria-hidden="true">
+        <div class="ph left"><img src="{{ url_for('static', filename='img/subjects.webp') }}" alt="" width="420" height="940"></div>
+        <div class="ph right"><img src="{{ url_for('static', filename='img/calculator.webp') }}" alt="" width="420" height="940"></div>
+        <div class="ph center"><img src="{{ url_for('static', filename='img/exam.webp') }}" alt="" width="420" height="940"></div>
+      </section>
+
+      <section class="cta">
+        <p class="get">Get it from Play Store</p>
+        <h2>JAMBIXO</h2>
+        <p class="sub">Free JAMB practice app</p>
+
+        <a class="play" href="{{ play_url }}" aria-label="Get JAMBIXO on Google Play">
+          <svg viewBox="0 0 270 80" role="img" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="267" height="77" rx="13" fill="#000" stroke="#a6a6a6" stroke-width="2"/>
+            <polygon points="16,18 36.8,40 16,62" fill="#00b0ff"/>
+            <polygon points="16,18 49.6,36.5 36.8,40" fill="#00dc78"/>
+            <polygon points="16,62 36.8,40 49.6,43.5" fill="#ff3a44"/>
+            <polygon points="49.6,36.5 56,40 49.6,43.5 36.8,40" fill="#ffd500"/>
+            <text x="68" y="31" fill="#fff" font-size="11" font-family="Poppins, Arial, sans-serif" font-weight="500" letter-spacing="1">GET IT ON</text>
+            <text x="67" y="58" fill="#fff" font-size="25" font-family="Poppins, Arial, sans-serif" font-weight="700">Google Play</text>
+          </svg>
+        </a>
+
+        <div class="redirect" style="--delay: {{ delay_ms }}ms">
+          <span>Taking you to Google Play&hellip;</span>
+          <div class="bar"><i></i></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+</body>
+</html>
