@@ -24,8 +24,9 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 db_url = os.environ.get("DATABASE_URL", "sqlite:///jambixo.db")
-if db_url.startswith("postgres://"):
-    db_url = db_url.replace("postgres://", "postgresql://", 1)
+if db_url.startswith(("postgres://", "postgresql://", "postgresql+psycopg://")):
+    # always use the psycopg2 driver that is listed in requirements.txt
+    db_url = "postgresql+psycopg2://" + db_url.split("://", 1)[1]
 
 app.config.update(
     SECRET_KEY=os.environ.get("SECRET_KEY") or secrets.token_hex(32),
